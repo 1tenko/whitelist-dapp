@@ -107,6 +107,31 @@ const Home: NextPage = () => {
     }
   };
 
+  // checks if the address is in whitelist
+  const checkIfAddressInWhitelist = async () => {
+    try {
+      // we will need signer later to get the user's address
+      // even though it's a read transaction, since Signers are just
+      // special kind of Providers, we can use it in it's place
+      const signer = await getProviderOrSigner(true);
+
+      const whitelistContract = new Contract(
+        WHITELIST_CONTRACT_ADDRESS,
+        abi,
+        signer
+      );
+      // get the address associated to the signer which is connected to metamask
+      const address = await signer.getAddress();
+      // call the whitelistedAddresses from the contract
+      const _joinedWhitelist = await whitelistContract.whitelistedAddresses(
+        address
+      );
+      setJoinedWhitelist(_joinedWhitelist);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div>
       <Head>

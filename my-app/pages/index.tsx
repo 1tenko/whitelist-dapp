@@ -80,11 +80,32 @@ const Home: NextPage = () => {
       await getNumberOfWhitelisted();
       setJoinedWhitelist(true);
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
 
   // gets the number of whitelisted addresses
+  const getNumberOfWhitelisted = async () => {
+    try {
+      // get the provider from web3Modal, which in our case is metamask
+      // no need for Signer here, as we are only reading state from blockchain
+      const provider = await getProviderOrSigner();
+
+      // we connect to the Contract using a Provider, so we will only
+      // have read-only access to the Contract
+      const whitelistContract = new Contract(
+        WHITELIST_CONTRACT_ADDRESS,
+        abi,
+        provider
+      );
+      // call the numAddressesWhitelisted from the contract
+      const _numberOfWhitelisted =
+        await whitelistContract.numAddressesWhitelisted();
+      setNumberOfWhitelisted(_numberOfWhitelisted);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div>

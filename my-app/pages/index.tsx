@@ -132,6 +132,23 @@ const Home: NextPage = () => {
     }
   };
 
+  // connects metamask wallet
+  const connectWallet = async () => {
+    try {
+      // get the provider from the web3Modal, which in our case is metamask
+      // when used for first time, it prompts the user to connect their wallet
+      await getProviderOrSigner();
+      setWalletConnected(true);
+
+      checkIfAddressInWhitelist();
+      getNumberOfWhitelisted();
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  // returns a button based on the state of the dapp
+
   return (
     <div>
       <Head>

@@ -43,17 +43,23 @@ const Home: NextPage = () => {
         <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="">
+      <div className=".main min-h-[50%] flex justify-center items-center">
         <div>
-          <h1 className="">Welcome to Crypto Devs!</h1>
-          <div className="">
+          <h1 className="text-4xl my-8">Welcome to Crypto Devs!</h1>
+          <div className="leading-none text-xl my-8">
             It's an NFT collection for developers in Crypto.
           </div>
-          <div className="">have already joined the Whitelist</div>
+          <div className="leading-none text-xl my-8">
+            have already joined the Whitelist
+          </div>
           <RenderButton />
         </div>
         <div>
-          <img src="./crypto-devs.svg" alt="/" />
+          <img
+            className="w-[70%] h-[50%] ml-[20%]"
+            src="./crypto-devs.svg"
+            alt="/"
+          />
         </div>
       </div>
       <footer className="">Made with &#10084; by Tenko</footer>

@@ -2,7 +2,9 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useRef } from "react";
 import RenderButton from "../components/RenderButton";
-import { providers } from "web3modal";
+import Web3Modal from "web3modal";
+import { providers, Contract } from "ethers";
+import { WHITELIST_CONTRACT_ADDRESS, abi } from "../constants";
 
 const Home: NextPage = () => {
   // to keep track of whether the user's wallet is connected or not
@@ -55,6 +57,34 @@ const Home: NextPage = () => {
   };
 
   // adds the current connected address to the whitelist
+  const addAddressToWhitelist = async () => {
+    try {
+      // we need a Signer here since this is a 'write' function
+      const signer = await getProviderOrSigner(true);
+
+      // create a new instance of the Contract with a Signer,
+      // which allows update methods
+      const whitelistContract = new Contract(
+        WHITELIST_CONTRACT_ADDRESS,
+        abi,
+        signer
+      );
+
+      // call the addAddressToWhitelist from the contract
+      const tx = await whitelistContract.addAddressToWhitelist();
+      setLoading(true);
+      // wait for tx to get mined
+      await tx.wait();
+      setLoading(false);
+      // get updated number of addresses in the whitelist
+      await getNumberOfWhitelisted();
+      setJoinedWhitelist(true);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // gets the number of whitelisted addresses
 
   return (
     <div>

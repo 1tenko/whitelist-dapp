@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import { useState, useRef } from "react";
 import RenderButton from "../components/RenderButton";
+import { providers } from "web3modal";
 
 const Home: NextPage = () => {
   // to keep track of whether the user's wallet is connected or not
@@ -35,6 +34,27 @@ const Home: NextPage = () => {
 
   *@param{*}needSigner - True if you need the signer, default false otherwise
   */
+  const getProviderOrSigner = async (needSigner = false) => {
+    // connect to metamask
+    // since we store 'web3Modal' as a reference, we need to access the 'current'
+    // value to get access to the underlying object
+    const provider = await web3ModalRef.current.connect();
+    const web3Provider = new providers.Web3Provider(provider);
+
+    // if user is not connected to the Rinkeby network, let them know and throw an error
+    const { chainId } = await web3Provider.getNetwork();
+    if (chainId !== 4) {
+      window.alert("Change the network to Rinkeby");
+      throw new Error("Change the network to Rinkeby");
+    }
+    if (needSigner) {
+      const signer = web3Provider.getSigner();
+      return signer;
+    }
+    return web3Provider;
+  };
+
+  // adds the current connected address to the whitelist
 
   return (
     <div>

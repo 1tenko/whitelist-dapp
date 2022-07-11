@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useState, useRef } from "react";
-import RenderButton from "../components/RenderButton";
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { WHITELIST_CONTRACT_ADDRESS, abi } from "../constants";
@@ -148,6 +147,41 @@ const Home: NextPage = () => {
   };
 
   // returns a button based on the state of the dapp
+  const renderButton = () => {
+    if (walletConnected) {
+      if (joinedWhitelist) {
+        return (
+          <div className="leading-none text-xl my-8">
+            Thanks for joining the Whitelist!
+          </div>
+        );
+      } else if (loading) {
+        return (
+          <button className="border-0 bg-[#0000FF] text-white rounded text-[15px] p-[20px] w-[200px] mb-[2%] cursor-pointer">
+            Loading...
+          </button>
+        );
+      } else {
+        return (
+          <button
+            onClick={addAddressToWhitelist}
+            className="border-0 bg-[#0000FF] text-white rounded text-[15px] p-[20px] w-[200px] mb-[2%] cursor-pointer"
+          >
+            Join the Whitelist
+          </button>
+        );
+      }
+    } else {
+      return (
+        <button
+          onClick={connectWallet}
+          className="border-0 bg-[#0000FF] text-white rounded text-[15px] p-[20px] w-[200px] mb-[2%] cursor-pointer"
+        >
+          Connect your wallet
+        </button>
+      );
+    }
+  };
 
   return (
     <div>
@@ -165,7 +199,7 @@ const Home: NextPage = () => {
           <div className="leading-none text-xl my-8">
             have already joined the Whitelist
           </div>
-          <RenderButton />
+          {renderButton()}
         </div>
         <div>
           <img

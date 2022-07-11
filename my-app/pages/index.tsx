@@ -205,14 +205,14 @@ const Home: NextPage = () => {
         <meta name="description" content="Whitelist-Dapp" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className=".main min-h-[50%] flex justify-center items-center">
+      <div className=".main min-h-[50%] flex justify-center items-center flex-row">
         <div>
           <h1 className="text-4xl my-8">Welcome to Crypto Devs!</h1>
           <div className="leading-none text-xl my-8">
             It's an NFT collection for developers in Crypto.
           </div>
           <div className="leading-none text-xl my-8">
-            have already joined the Whitelist
+            {numberOfWhitelisted} have already joined the Whitelist
           </div>
           {renderButton()}
         </div>
@@ -224,7 +224,9 @@ const Home: NextPage = () => {
           />
         </div>
       </div>
-      <footer className="">Made with &#10084; by Tenko</footer>
+      <footer className="flex py-8  justify-center items-center">
+        Made with &#10084; by Tenko
+      </footer>
     </div>
   );
 };

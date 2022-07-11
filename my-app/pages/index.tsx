@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Web3Modal from "web3modal";
 import { providers, Contract } from "ethers";
 import { WHITELIST_CONTRACT_ADDRESS, abi } from "../constants";
@@ -182,6 +182,21 @@ const Home: NextPage = () => {
       );
     }
   };
+
+  // whenever 'walletConnected' changes, this effect will be called
+  useEffect(() => {
+    // if wallet not connected, create new instance of Web3Modal and connect the metamask wallet
+    if (!walletConnected) {
+      // assign W3b3Modal class to the reference object by setting it's 'current' value
+      // 'current' value is persisted throughout as long as this page is open
+      web3ModalRef.current = new Web3Modal({
+        network: "rinkeby",
+        providerOptions: {},
+        disableInjectedProvider: false,
+      });
+      connectWallet();
+    }
+  }, [walletConnected]);
 
   return (
     <div>

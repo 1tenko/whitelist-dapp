@@ -4,7 +4,6 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-  font-family: "Courier New", Courier, monospace;
 }
 
 a {
@@ -14,17 +13,4 @@ a {
 
 * {
   box-sizing: border-box;
-}
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@media (max-width: 1000px) {
-  .main {
-    width: 100%;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
 }
